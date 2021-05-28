@@ -1,3 +1,4 @@
+import glob
 import os
 import sys
 from mutagen import MutagenError
@@ -10,12 +11,20 @@ if len(sys.argv) != 2:
 else:
     path = sys.argv[1]
 
+# Go to the path where the FLAC files are
+try:
+    os.chdir(path)
+except FileNotFoundError:
+    print('That directory can\'t be found. The program is terminating.')
+    sys.exit()
+    
 FLAC_files = []
 
-try:
-    for filename in os.listdir(path):
-        if filename.endswith('.flac'):
-            FLAC_files.append(filename)
-except:
-    # TODO: Determine exceptions raised by this and print a proper error message instead of just continuing
-    pass
+# Get the FLAC files
+for file in glob.glob('*.flac'):
+    FLAC_files.append(file)
+        
+if not FLAC_files:
+    # No FLAC files found, so terminating program
+    print('No FLAC files were found. The program is terminating.')
+    sys.exit()

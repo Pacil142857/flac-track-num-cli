@@ -47,8 +47,14 @@ else:
         else:
             path = sys.argv[2]
     
-    else: 
-        path = sys.argv[1]
+    else:
+        
+        # The path will only be taken as a command-line argument if there's nothing else provided as a command-line argument
+        # This is done so that users who paste a path with spaces in it don't accidentally put in an incomplete path
+        if len(sys.argv) == 2:
+            path = sys.argv[1]
+        else:
+            path = input('Path to FLAC files: ')
 
 # Go to the path where the FLAC files are
 try:
